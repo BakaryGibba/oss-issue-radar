@@ -1,0 +1,32 @@
+name: Issue radar
+
+on:
+  schedule:
+    - cron: "17 */6 * * *"   # every 6 hours
+  workflow_dispatch:
+
+permissions:
+  contents: write   # update seen.json
+  issues: write     # open the alert issue
+
+jobs:
+  radar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Find new unclaimed issues
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python radar.py --notify
+      - name: Remember reported issues
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
+          git add seen.json 2>/dev/null || true
+          if ! git diff --cached --quiet; then
+            git commit -m "Update seen issues"
+            git push
+          fi

@@ -1,0 +1,15 @@
+{
+  "repos": [
+    "castorini/pyserini",
+    "castorini/anserini",
+    "castorini/rank_llm",
+    "castorini/ragnarok",
+    "shap/shap",
+    "pytorch/captum",
+    "Project-MONAI/MONAI",
+    "huggingface/datasets"
+  ],
+  "lookback_days": 7,
+  "max_comments": 2,
+  "exclude_labels": ["wontfix", "invalid", "duplicate", "question", "awaiting feedback"]
+}
