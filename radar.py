@@ -26,8 +26,11 @@ CLAIM = re.compile(
     r"(i'?d like to (work|take|pick)|i would like to (work|take)|can i (work|take|pick)|"
     r"i('ll| will) (work|take|pick|submit|open)|assign (it |this )?(to )?me|i'?m working on|"
     r"i am working on|working on (a|this|it) |opened a pr|submitted a (fix|pr)|"
-    r"i have (a fix|submitted|opened)|have this working locally|happy to (send|open|submit) a pr)",
+    r"i have (a fix|submitted|opened)|have this working locally|happy to (send|open|submit) a pr|"
+    r"#?self-assign|/assign\b|take (this|it) on)",
     re.I)
+# Tracking and design issues are coordinated by maintainers, not open for a single fix.
+TRACKER = re.compile(r'^\s*(\[?(tracker|rfc|meta[- ]issue)\]?\s*:?)', re.I)
 REPORTER_WILL_FIX = re.compile(r"\[x\]\s*i'?d be interested in making a pr", re.I)
 
 QUERY = """
@@ -74,6 +77,8 @@ def skip_reason(issue, cfg):
         return 'has PR'
     if REPORTER_WILL_FIX.search(issue['body'] or ''):
         return 'reporter will fix'
+    if TRACKER.match(issue['title']):
+        return 'tracking issue'
     if any(CLAIM.search(c['body'] or '') for c in issue['comments']['nodes']):
         return 'claimed'
     labels = {l['name'].lower() for l in issue['labels']['nodes']}
