@@ -31,7 +31,11 @@ CLAIM = re.compile(
     re.I)
 # Tracking and design issues are coordinated by maintainers, not open for a single fix.
 TRACKER = re.compile(r'^\s*(\[?(tracker|rfc|meta[- ]issue)\]?\s*:?)', re.I)
-REPORTER_WILL_FIX = re.compile(r"\[x\]\s*i'?d be interested in making a pr", re.I)
+REPORTER_WILL_FIX = re.compile(
+    r"\[x\]\s*i'?d be interested in making a pr|"
+    r"(happy|willing|glad) to (send|open|submit|make|prepare) (a |the )?(pr|pull request|fix)|"
+    r"i('ll| will| can) (send|open|submit|make) (a |the )?(pr|pull request)|"
+    r"\b(fix|pr)\b.{0,40}\b(is|are) (prepared|ready)|\b(pr|fix) (incoming|coming soon)", re.I)
 
 QUERY = """
 query($owner: String!, $name: String!, $since: DateTime!) {
