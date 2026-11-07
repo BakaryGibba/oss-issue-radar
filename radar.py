@@ -38,10 +38,10 @@ REPORTER_WILL_FIX = re.compile(
     r"\b(fix|pr)\b.{0,40}\b(is|are) (prepared|ready)|\b(pr|fix) (incoming|coming soon)", re.I)
 
 QUERY = """
-query($owner: String!, $name: String!, $since: DateTime!) {
+query($owner: String!, $name: String!, $since: DateTime!, $labels: [String!]) {
   repository(owner: $owner, name: $name) {
     issues(states: OPEN, first: 50, orderBy: {field: CREATED_AT, direction: DESC},
-           filterBy: {since: $since}) {
+           filterBy: {since: $since, labels: $labels}) {
       nodes {
         number title url createdAt body
         author { login }
@@ -91,13 +91,29 @@ def skip_reason(issue, cfg):
     return None
 
 
+def watch_entries(cfg):
+    """Yield (repo, labels, lookback_days) for each watchlist entry.
+
+    An entry is either "owner/name" (every new issue) or an object with
+    "repo" and "labels" (only issues carrying one of those labels). Large
+    projects use labels so only issues meant for outside contributors appear.
+    """
+    for entry in cfg['repos']:
+        if isinstance(entry, str):
+            yield entry, None, cfg['lookback_days']
+        else:
+            yield (entry['repo'], entry.get('labels') or None,
+                   entry.get('lookback_days', cfg.get('labelled_lookback_days', cfg['lookback_days'])))
+
+
 def find_candidates(token, cfg, seen):
-    since = (datetime.now(timezone.utc) - timedelta(days=cfg['lookback_days'])).isoformat()
+    now = datetime.now(timezone.utc)
     found = []
-    for full in cfg['repos']:
+    for full, labels, days in watch_entries(cfg):
+        since = (now - timedelta(days=days)).isoformat()
         owner, name = full.split('/')
         try:
-            issues = graphql(token, QUERY, {'owner': owner, 'name': name, 'since': since})
+            issues = graphql(token, QUERY, {'owner': owner, 'name': name, 'since': since, 'labels': labels})
         except Exception as e:  # one bad repo should not stop the run
             print(f'warning: {full}: {e}', file=sys.stderr)
             continue

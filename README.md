@@ -1,6 +1,6 @@
 # OSS Issue Radar
 
-Finds new, **unclaimed** issues in the open-source research projects I contribute to, so I can offer help while an issue is still open for a contributor.
+Finds new, **unclaimed** issues in the open-source research projects I contribute to and in major projects (Hugging Face, PyTorch, scikit-learn, NumPy, Google JAX/Keras, TensorFlow, Microsoft, NVIDIA, Apache Arrow, CPython and others), so I can offer help while an issue is still open for a contributor.
 
 Every 6 hours a GitHub Action checks the projects in [`watchlist.json`](watchlist.json) for issues opened in the last 7 days and skips any that:
 
@@ -20,3 +20,8 @@ GITHUB_TOKEN=$(gh auth token) python radar.py   # dry run, prints candidates
 ## Configure
 
 Edit `watchlist.json` to change the projects, the look-back window or the filters.
+
+Each entry in `repos` is either:
+
+- `"owner/name"`: every new issue, looking back `lookback_days` (7);
+- `{"repo": "owner/name", "labels": [...]}`: only issues with one of those labels, looking back `labelled_lookback_days` (30). Large projects use this so only issues meant for outside contributors (`good first issue`, `help wanted`, …) appear. Label names must match the repository's labels exactly.
