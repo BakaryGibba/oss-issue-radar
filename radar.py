@@ -27,7 +27,8 @@ CLAIM = re.compile(
     r"i('ll| will) (work|take|pick|submit|open)|assign (it |this )?(to )?me|i'?m working on|"
     r"i am working on|working on (a|this|it) |opened a pr|submitted a (fix|pr)|"
     r"i have (a fix|submitted|opened)|have this working locally|happy to (send|open|submit) a pr|"
-    r"#?self-assign|/assign\b|take (this|it) on)",
+    r"#?self-assign|/assign\b|(^|\s)/(take|claim)\b|take (this|it) on|"
+    r"\b(fix|pr|patch)\b.{0,60}\b(ready|prepared)\b)",
     re.I)
 # Tracking and design issues are coordinated by maintainers, not open for a single fix.
 TRACKER = re.compile(r'^\s*(\[?(tracker|rfc|meta[- ]issue)\]?\s*:?)', re.I)
