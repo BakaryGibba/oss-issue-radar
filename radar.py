@@ -36,7 +36,14 @@ REPORTER_WILL_FIX = re.compile(
     r"\[x\]\s*i'?d be interested in making a pr|"
     r"(happy|willing|glad) to (send|open|submit|make|prepare) (a |the )?(pr|pull request|fix)|"
     r"i('ll| will| can) (send|open|submit|make) (a |the )?(pr|pull request)|"
-    r"\b(fix|pr)\b.{0,40}\b(is|are) (prepared|ready)|\b(pr|fix) (incoming|coming soon)", re.I)
+    r"\b(fix|pr)\b.{0,40}\b(is|are) (prepared|ready)|\b(pr|fix) (incoming|coming soon)|"
+    r"i(?: have|'ve got|'ve) (a |the )?(patch|fix|pr|branch)\b.{0,40}\bready|"
+    r"would (a|my) (pr|pull request|patch|fix) be welcome", re.I)
+
+
+def normalize(text):
+    """Map typographic apostrophes to ASCII so "I’d like to take this" matches like "I'd ..."."""
+    return (text or '').replace('’', "'").replace('‘', "'")
 
 QUERY = """
 query($owner: String!, $name: String!, $since: DateTime!, $labels: [String!]) {
@@ -80,11 +87,11 @@ def skip_reason(issue, cfg):
         return 'busy'
     if any(n.get('source', {}).get('__typename') == 'PullRequest' for n in issue['timelineItems']['nodes']):
         return 'has PR'
-    if REPORTER_WILL_FIX.search(issue['body'] or ''):
+    if REPORTER_WILL_FIX.search(normalize(issue['body'])):
         return 'reporter will fix'
     if TRACKER.match(issue['title']):
         return 'tracking issue'
-    if any(CLAIM.search(c['body'] or '') for c in issue['comments']['nodes']):
+    if any(CLAIM.search(normalize(c['body'])) for c in issue['comments']['nodes']):
         return 'claimed'
     labels = {l['name'].lower() for l in issue['labels']['nodes']}
     if labels & {l.lower() for l in cfg.get('exclude_labels', [])}:
