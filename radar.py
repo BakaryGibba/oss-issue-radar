@@ -34,7 +34,7 @@ CLAIM = re.compile(
 TRACKER = re.compile(r'^\s*(\[?(tracker|rfc|meta[- ]issue)\]?\s*:?)', re.I)
 REPORTER_WILL_FIX = re.compile(
     r"\[x\]\s*i'?d be interested in making a pr|"
-    r"(happy|willing|glad) to (send|open|submit|make|prepare) (a |the )?(pr|pull request|fix)|"
+    r"(happy|willing|glad) to (send|open|submit|make|prepare) (a |the )?(pr|pull request|fix)|(happy|willing|glad) to contribute (a |the )?(pr|fix|implementation|patch)|"
     r"i('ll| will| can) (send|open|submit|make) (a |the )?(pr|pull request)|"
     r"\b(fix|pr)\b.{0,40}\b(is|are) (prepared|ready)|\b(pr|fix) (incoming|coming soon)|"
     r"i(?: have|'ve got|'ve) (a |the )?(patch|fix|pr|branch)\b.{0,40}\bready|"
