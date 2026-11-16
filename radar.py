@@ -39,7 +39,7 @@ REPORTER_WILL_FIX = re.compile(
     r"\b(fix|pr)\b.{0,40}\b(is|are) (prepared|ready)|\b(pr|fix) (incoming|coming soon)|"
     r"i(?: have|'ve got|'ve) (a |the )?(patch|fix|pr|branch)\b.{0,40}\bready|"
     r"would (a|my) (pr|pull request|patch|fix) be welcome|"
-    r"i(?: can|'d be happy to|'m happy to| would be happy to) (implement|fix|work on) (it|this|that|the fix)", re.I)
+    r"i(?: can|'d be happy to|'m happy to| would be happy to) (implement|fix|work on) (it|this|that|the fix)|bi (?:can|could) work on (?:normaliz|implement|fix|adding|a fix|a pr|the fix)", re.I)
 
 
 def normalize(text):
