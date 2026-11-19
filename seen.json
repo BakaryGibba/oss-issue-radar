@@ -11,7 +11,9 @@
  "https://github.com/castorini/pyserini/issues/2781",
  "https://github.com/huggingface/datasets/issues/8919",
  "https://github.com/huggingface/datasets/issues/9033",
+ "https://github.com/huggingface/datasets/issues/9082",
  "https://github.com/huggingface/sentence-transformers/issues/4402",
+ "https://github.com/huggingface/sentence-transformers/issues/4415",
  "https://github.com/meta-pytorch/captum/issues/1953",
  "https://github.com/meta-pytorch/captum/issues/1959",
  "https://github.com/narwhals-dev/narwhals/issues/4154",
@@ -37,9 +39,11 @@
  "https://github.com/pandas-dev/pandas/issues/72202",
  "https://github.com/pandas-dev/pandas/issues/72210",
  "https://github.com/pandas-dev/pandas/issues/72215",
+ "https://github.com/pandas-dev/pandas/issues/72246",
  "https://github.com/run-llama/llama_index/issues/24043",
  "https://github.com/shap/shap/issues/5262",
  "https://github.com/shap/shap/issues/5263",
  "https://github.com/shap/shap/issues/5274",
- "https://github.com/shap/shap/issues/5330"
+ "https://github.com/shap/shap/issues/5330",
+ "https://github.com/shap/shap/issues/5331"
 ]
