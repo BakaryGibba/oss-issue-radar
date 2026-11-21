@@ -37,7 +37,7 @@ REPORTER_WILL_FIX = re.compile(
     r"(happy|willing|glad) to (send|open|submit|make|prepare) (a |the )?(pr|pull request|fix)|(happy|willing|glad) to contribute (a |the )?(pr|fix|implementation|patch)|"
     r"i('ll| will| can) (send|open|submit|make) (a |the )?(pr|pull request)|"
     r"\b(fix|pr)\b.{0,40}\b(is|are) (prepared|ready)|\b(pr|fix) (incoming|coming soon)|"
-    r"i(?: have|'ve got|'ve) (a |the )?(patch|fix|pr|branch)\b.{0,40}\bready|"
+    r"i(?: have|'ve got|'ve) (a |the )?(\w+ )?(patch|fix|pr|branch)\b.{0,40}\bready|"
     r"would (a|my) (pr|pull request|patch|fix) be welcome|"
     r"i(?: can|'d be happy to|'m happy to| would be happy to) (implement|fix|work on) (it|this|that|the fix)|\bi (?:can|could) work on (?:normaliz|implement|fix|adding|a fix|a pr|the fix)", re.I)
 
